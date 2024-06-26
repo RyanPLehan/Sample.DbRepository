@@ -1,0 +1,6 @@
+@Sample.DbRepository.Api_HostAddress = http://localhost:5136
+
+GET {{Sample.DbRepository.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
