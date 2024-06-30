@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace Sample.DbRepository.Domain.Models
+namespace Sample.DbRepository.Domain.Management.Models
 {
-    public class MediaType
+    public class Artist
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -7,15 +7,15 @@ using Microsoft.Extensions.Options;
 using Sample.DbRepository.Domain.Infrastructure;
 using Sample.DbRepository.Infrastructure.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts
+namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation
 {
-    public sealed class SearchContextFactory : IContextFactory<SearchContext>
+    public sealed class AggregationContextFactory : IContextFactory<AggregationContext>
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly DatabaseSettings _settings;
 
-        public SearchContextFactory(ILoggerFactory loggerFactory,
-                                    IOptions<DatabaseSettings> settings)
+        public AggregationContextFactory(ILoggerFactory loggerFactory,
+                                         IOptions<DatabaseSettings> settings)
         {
             ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
             ArgumentNullException.ThrowIfNull(settings?.Value, nameof(settings));
@@ -24,19 +24,19 @@ namespace Sample.DbRepository.Infrastructure.Contexts
             _settings = settings.Value;
         }
 
-        public SearchContext CreateCommandContext()
+        public AggregationContext CreateCommandContext()
         {
             throw new NotImplementedException("Cannot create a command context");
         }
 
-        public SearchContext CreateQueyContext()
+        public AggregationContext CreateQueyContext()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SearchContext>()
+            var optionsBuilder = new DbContextOptionsBuilder<AggregationContext>()
                                             .UseLoggerFactory(_loggerFactory)
                                             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                                             .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
 
-            return new SearchContext(optionsBuilder.Options);
+            return new AggregationContext(optionsBuilder.Options);
         }
 
         /// <summary>

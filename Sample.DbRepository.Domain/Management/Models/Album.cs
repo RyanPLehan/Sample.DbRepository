@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Sample.DbRepository.Domain.Models
+namespace Sample.DbRepository.Domain.Management.Models
 {
     public class Album
     {

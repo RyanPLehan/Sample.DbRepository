@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Sample.DbRepository.Domain.Infrastructure;
 using Sample.DbRepository.Domain.Models;
 using Sample.DbRepository.Domain.Aggregation;
-using Sample.DbRepository.Infrastructure.Contexts;
+using Sample.DbRepository.Infrastructure.Contexts.Management;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Aggregation
 {

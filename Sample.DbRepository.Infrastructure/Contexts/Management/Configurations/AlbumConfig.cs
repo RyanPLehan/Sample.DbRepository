@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.DbRepository.Domain.Models;
+using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Configurations
+namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
 {
     internal sealed class AlbumConfig : IEntityTypeConfiguration<Album>
     {

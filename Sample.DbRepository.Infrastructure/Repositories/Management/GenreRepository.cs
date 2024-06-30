@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Sample.DbRepository.Domain.Infrastructure;
 using Sample.DbRepository.Domain.Management;
-using Sample.DbRepository.Domain.Models;
-using Sample.DbRepository.Infrastructure.Contexts;
+using Sample.DbRepository.Domain.Management.Models;
+using Sample.DbRepository.Infrastructure.Contexts.Management;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {

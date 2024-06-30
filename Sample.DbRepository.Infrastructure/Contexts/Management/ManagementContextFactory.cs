@@ -7,15 +7,15 @@ using Microsoft.Extensions.Options;
 using Sample.DbRepository.Domain.Infrastructure;
 using Sample.DbRepository.Infrastructure.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts
+namespace Sample.DbRepository.Infrastructure.Contexts.Management
 {
-    public sealed class AggregationContextFactory : IContextFactory<AggregationContext>
+    public sealed class ManagementContextFactory : IContextFactory<ManagementContext>
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly DatabaseSettings _settings;
 
-        public AggregationContextFactory(ILoggerFactory loggerFactory,
-                                         IOptions<DatabaseSettings> settings)
+        public ManagementContextFactory(ILoggerFactory loggerFactory,
+                                       IOptions<DatabaseSettings> settings)
         {
             ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
             ArgumentNullException.ThrowIfNull(settings?.Value, nameof(settings));
@@ -24,19 +24,23 @@ namespace Sample.DbRepository.Infrastructure.Contexts
             _settings = settings.Value;
         }
 
-        public AggregationContext CreateCommandContext()
+        public ManagementContext CreateCommandContext()
         {
-            throw new NotImplementedException("Cannot create a command context");
+            var optionsBuilder = new DbContextOptionsBuilder<ManagementContext>()
+                                            .UseLoggerFactory(_loggerFactory)
+                                            .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
+
+            return new ManagementContext(optionsBuilder.Options);
         }
 
-        public AggregationContext CreateQueyContext()
+        public ManagementContext CreateQueyContext()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AggregationContext>()
+            var optionsBuilder = new DbContextOptionsBuilder<ManagementContext>()
                                             .UseLoggerFactory(_loggerFactory)
                                             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                                             .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
 
-            return new AggregationContext(optionsBuilder.Options);
+            return new ManagementContext(optionsBuilder.Options);
         }
 
         /// <summary>

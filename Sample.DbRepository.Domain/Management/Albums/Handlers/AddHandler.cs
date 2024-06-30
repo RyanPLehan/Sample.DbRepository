@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MediatR;
 using Sample.DbRepository.Domain.Formatters;
-using Sample.DbRepository.Domain.Models;
 using Sample.DbRepository.Domain.Management.Albums.Requests;
+using Sample.DbRepository.Domain.Management.Models;
 
 namespace Sample.DbRepository.Domain.Management.Albums.Handlers
 {

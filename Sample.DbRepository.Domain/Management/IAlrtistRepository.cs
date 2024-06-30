@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sample.DbRepository.Domain.Models;
+using Sample.DbRepository.Domain.Management.Models;
 
 namespace Sample.DbRepository.Domain.Management
 {

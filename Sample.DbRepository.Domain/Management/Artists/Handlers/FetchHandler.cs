@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Sample.DbRepository.Domain.Models;
 using Sample.DbRepository.Domain.Management.Artists.Requests;
+using Sample.DbRepository.Domain.Management.Models;
 
 namespace Sample.DbRepository.Domain.Management.Artists.Handlers
 {

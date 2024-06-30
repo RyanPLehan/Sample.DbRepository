@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Sample.DbRepository.Domain.Models;
+using Sample.DbRepository.Domain.Management.Models;
 using Sample.DbRepository.Infrastructure.Contexts.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts
+namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation
 {
     /// <summary>
     /// Using a separate Aggregation Context because we may want to take advantage of the following

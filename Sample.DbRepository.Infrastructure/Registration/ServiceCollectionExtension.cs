@@ -7,7 +7,9 @@ using ISearch = Sample.DbRepository.Domain.Search;
 using CSearch = Sample.DbRepository.Infrastructure.Repositories.Search;
 using IAggregation = Sample.DbRepository.Domain.Aggregation;
 using CAggregation = Sample.DbRepository.Infrastructure.Repositories.Aggregation;
-using Sample.DbRepository.Infrastructure.Contexts;
+using Sample.DbRepository.Infrastructure.Contexts.Aggregation;
+using Sample.DbRepository.Infrastructure.Contexts.Search;
+using Sample.DbRepository.Infrastructure.Contexts.Management;
 
 
 namespace Sample.DbRepository.Infrastructure.Registration
