@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Sample.DbRepository.Domain.Management.Albums.Requests;
+using Sample.DbRepository.Domain.Management.Tracks.Requests;
 using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Domain.Management.Albums.Handlers
+namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
 {
-    internal sealed class AddHandler : IRequestHandler<Add, Album>
+    internal sealed class AddHandler : IRequestHandler<Add, Track>
     {
-        private readonly IAlbumRepository _repository;
+        private readonly ITrackRepository _repository;
 
-        public AddHandler(IAlbumRepository repository)
+        public AddHandler(ITrackRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
 
             _repository = repository;
         }
 
-        public async Task<Album> Handle(Add request, CancellationToken cancellationToken)
+        public async Task<Track> Handle(Add request, CancellationToken cancellationToken)
         {
-            Album entity = new Album()
+            Track entity = new Track()
             {
                 Title = request.Title.Trim(),
                 ArtistId = request.ArtistId,

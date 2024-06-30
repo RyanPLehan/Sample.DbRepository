@@ -17,16 +17,12 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management
     {
         const int MAX_BATCH_SIZE = 250;
         private readonly IContextFactory<ManagementContext> _contextFactory;
-        private readonly IMapper _mapper;
 
-        public AlbumRepository(IContextFactory<ManagementContext> contextFactory,
-                               IMapper mapper)
+        public AlbumRepository(IContextFactory<ManagementContext> contextFactory)
         {
             ArgumentNullException.ThrowIfNull(contextFactory, nameof(contextFactory));
-            ArgumentNullException.ThrowIfNull(mapper, nameof(mapper));
 
             _contextFactory = contextFactory;
-            _mapper = mapper;
         }
 
         public async Task<Album> Add(Album entity)

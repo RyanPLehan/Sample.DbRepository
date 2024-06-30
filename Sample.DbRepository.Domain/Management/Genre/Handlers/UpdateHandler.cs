@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Sample.DbRepository.Domain.Management.Artists.Requests;
+using Sample.DbRepository.Domain.Management.Genres.Requests;
 using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Domain.Management.Artists.Handlers
+namespace Sample.DbRepository.Domain.Management.Genres.Handlers
 {
-    internal sealed class UpdateHandler : IRequestHandler<Update, Artist>
+    internal sealed class UpdateHandler : IRequestHandler<Update, Genre>
     {
-        private readonly IArtistRepository _repository;
+        private readonly IGenreRepository _repository;
 
-        public UpdateHandler(IArtistRepository repository)
+        public UpdateHandler(IGenreRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
 
@@ -18,9 +18,9 @@ namespace Sample.DbRepository.Domain.Management.Artists.Handlers
         }
 
 
-        public async Task<Artist> Handle(Update request, CancellationToken cancellationToken)
+        public async Task<Genre> Handle(Update request, CancellationToken cancellationToken)
         {
-            Artist entity = await _repository.GetForUpdate(request.Id);
+            Genre entity = await _repository.GetForUpdate(request.Id);
             if (entity != null)
             {
                 entity.Name = request.Name;

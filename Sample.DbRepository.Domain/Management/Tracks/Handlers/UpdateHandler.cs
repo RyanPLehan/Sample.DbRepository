@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Sample.DbRepository.Domain.Management.Albums.Requests;
+using Sample.DbRepository.Domain.Management.Tracks.Requests;
 using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Domain.Management.Albums.Handlers
+namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
 {
-    internal sealed class UpdateHandler : IRequestHandler<Update, Album>
+    internal sealed class UpdateHandler : IRequestHandler<Update, Track>
     {
-        private readonly IAlbumRepository _repository;
+        private readonly ITrackRepository _repository;
 
-        public UpdateHandler(IAlbumRepository repository)
+        public UpdateHandler(ITrackRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
 
@@ -18,9 +18,9 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
         }
 
 
-        public async Task<Album> Handle(Update request, CancellationToken cancellationToken)
+        public async Task<Track> Handle(Update request, CancellationToken cancellationToken)
         {
-            Album entity = await _repository.GetForUpdate(request.Id);
+            Track entity = await _repository.GetForUpdate(request.Id);
             if (entity != null)
             {
                 entity.Title = request.Title;

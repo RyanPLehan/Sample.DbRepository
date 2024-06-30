@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Sample.DbRepository.Domain.Management.Albums.Requests
+namespace Sample.DbRepository.Domain.Management.Tracks.Requests
 {
     public class DeleteByIds : IRequest<Unit>
     {

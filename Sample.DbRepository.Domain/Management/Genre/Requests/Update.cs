@@ -2,10 +2,11 @@
 using MediatR;
 using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Domain.Management.Artists.Requests
+namespace Sample.DbRepository.Domain.Management.Genres.Requests
 {
-    public class Add : IRequest<Artist>
+    public class Update : IRequest<Genre>
     {
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

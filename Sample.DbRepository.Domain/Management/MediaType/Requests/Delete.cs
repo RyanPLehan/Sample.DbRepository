@@ -2,7 +2,7 @@
 using MediatR;
 
 
-namespace Sample.DbRepository.Domain.Management.Artists.Requests
+namespace Sample.DbRepository.Domain.Management.MediaTypes.Requests
 {
     public class Delete : IRequest<Unit>
     {

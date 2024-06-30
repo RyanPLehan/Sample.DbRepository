@@ -17,6 +17,7 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management
         internal DbSet<Artist> Artists { get; set; }
         internal DbSet<Genre> Genres { get; set; }
         internal DbSet<MediaType> MediaTypes { get; set; }
+        internal DbSet<Track> Tracks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +26,7 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management
             modelBuilder.ApplyConfiguration(new ArtistConfig());
             modelBuilder.ApplyConfiguration(new GenreConfig());
             modelBuilder.ApplyConfiguration(new MediaTypeConfig());
+            modelBuilder.ApplyConfiguration(new TrackConfig());
         }
     }
 }

@@ -13,18 +13,19 @@ using Sample.DbRepository.Infrastructure.Contexts.Management;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {
-    internal sealed class ArtistRepository : IArtistRepository
+    internal sealed class TrackRepository : ITrackRepository
     {
+        const int MAX_BATCH_SIZE = 250;
         private readonly IContextFactory<ManagementContext> _contextFactory;
 
-        public ArtistRepository(IContextFactory<ManagementContext> contextFactory)
+        public TrackRepository(IContextFactory<ManagementContext> contextFactory)
         {
             ArgumentNullException.ThrowIfNull(contextFactory, nameof(contextFactory));
 
             _contextFactory = contextFactory;
         }
 
-        public async Task<Artist> Add(Artist entity)
+        public async Task<Track> Add(Track entity)
         {
             using (var context = _contextFactory.CreateCommandContext())
             {
@@ -40,7 +41,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management
         {
             using (var context = _contextFactory.CreateCommandContext())
             {
-                var entity = await context.Artists
+                var entity = await context.Tracks
                                           .Where(x => x.Id == id)
                                           .FirstOrDefaultAsync();
 
@@ -52,25 +53,43 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management
             }
         }
 
-        public async Task<Artist> Get(int id)
+        public async Task Delete(IEnumerable<int> ids)
         {
-            Artist? entity = null;
-            using (var context = _contextFactory.CreateQueyContext())
-            {
-                entity = await context.Artists
-                                      .Where(x => x.Id == id)
-                                      .FirstOrDefaultAsync();
-            }
+            var deleteSql = RepositoryService.CreateDeleteSql("Tracks", "TrackId");
+            var distinctIds = ids.Distinct();
 
-            return entity;
-        }
-
-        public async Task<Artist> GetForUpdate(int id)
-        {
-            Artist? entity = null;
             using (var context = _contextFactory.CreateCommandContext())
             {
-                entity = await context.Artists
+                // Using a batching routine to issue a Raw SQL Delete Statement
+                await BatchHelper.BatchAsync<int>(MAX_BATCH_SIZE, distinctIds, async batchIds =>
+                {
+                    var inClause = String.Join(',', batchIds);
+                    var sql = String.Format(deleteSql, inClause);
+                    await context.Database.ExecuteSqlRawAsync(sql);
+
+                });
+            }
+        }
+
+        public async Task<Track> Get(int id)
+        {
+            Track? entity = null;
+            using (var context = _contextFactory.CreateQueyContext())
+            {
+                entity = await context.Tracks
+                                      .Where(x => x.Id == id)
+                                      .FirstOrDefaultAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Track> GetForUpdate(int id)
+        {
+            Track? entity = null;
+            using (var context = _contextFactory.CreateCommandContext())
+            {
+                entity = await context.Tracks
                                       .Where(x => x.Id == id)
                                       .FirstOrDefaultAsync();
             }
@@ -79,7 +98,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management
         }
 
 
-        public async Task<Artist> Update(Artist entity)
+        public async Task<Track> Update(Track entity)
         {
             using (var context = _contextFactory.CreateCommandContext())
             {

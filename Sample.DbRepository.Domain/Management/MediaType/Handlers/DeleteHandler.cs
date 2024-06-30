@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Sample.DbRepository.Domain.Management.Albums.Requests;
+using Sample.DbRepository.Domain.Management.MediaTypes.Requests;
 
-namespace Sample.DbRepository.Domain.Management.Albums.Handlers
+namespace Sample.DbRepository.Domain.Management.MediaTypes.Handlers
 {
-    internal sealed class DeleteByIdsHandler : IRequestHandler<DeleteByIds, Unit>
+    internal sealed class DeleteHandler : IRequestHandler<Delete, Unit>
     {
-        private readonly IAlbumRepository _repository;
+        private readonly IMediaTypeRepository _repository;
         private readonly IMediator _mediator;
 
-        public DeleteByIdsHandler(IAlbumRepository repository,
-                                  IMediator mediator)
+        public DeleteHandler(IMediaTypeRepository repository,
+                             IMediator mediator)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
             ArgumentNullException.ThrowIfNull(mediator, nameof(mediator));
@@ -20,15 +20,15 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
             _mediator = mediator;
         }
 
-        public async Task<Unit> Handle(DeleteByIds request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Delete request, CancellationToken cancellationToken)
         {
             // Automatically direct child tables just incase there is no casading deletes
-            await DeleteTracks(request.Id);
+            await DeleteAlbums(request.Id);
             await _repository.Delete(request.Id);
             return Unit.Value;
         }
 
-        private async Task DeleteTracks(int albumId)
+        private async Task DeleteAlbums(int MediaTypeId)
         {
             var wpDelete = new RequestWordPart.DeleteById() { WordId = wordId };
             await _mediator.Send(wpDelete);
