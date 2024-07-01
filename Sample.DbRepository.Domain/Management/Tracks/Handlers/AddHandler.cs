@@ -21,8 +21,12 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
         {
             Track entity = new Track()
             {
-                Title = request.Title.Trim(),
-                ArtistId = request.ArtistId,
+                Name = request.Name?.Trim(),
+                AlbumId = request.AlbumId,
+                GenreId = request.GenreId,
+                Composer = request.Composer?.Trim(),
+                PlayLengthInMilliseconds = request.PlayLengthInMilliseconds,
+                SizeInBytes = request.SizeInBytes,
             };
 
             return await _repository.Add(entity);

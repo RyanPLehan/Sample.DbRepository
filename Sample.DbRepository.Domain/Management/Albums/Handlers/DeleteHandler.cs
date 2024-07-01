@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using MediatR;
 using Sample.DbRepository.Domain.Management.Albums.Requests;
+using TrackManage = Sample.DbRepository.Domain.Management.Tracks.Requests;
+using TrackSearch = Sample.DbRepository.Domain.Search.Tracks.Requests;
 
 namespace Sample.DbRepository.Domain.Management.Albums.Handlers
 {
@@ -22,7 +24,7 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
 
         public async Task<Unit> Handle(Delete request, CancellationToken cancellationToken)
         {
-            // Automatically direct child tables just incase there is no casading deletes
+            // No Casading Deletes, must do it manually (should implement transactions)
             await DeleteTracks(request.Id);
             await _repository.Delete(request.Id);
             return Unit.Value;
@@ -30,8 +32,11 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
 
         private async Task DeleteTracks(int albumId)
         {
-            var wpDelete = new RequestWordPart.DeleteById() { WordId = wordId };
-            await _mediator.Send(wpDelete);
+            var findRequest = new TrackSearch.FindByAlbum() { AlbumId = albumId };
+            var tracks = await _mediator.Send(findRequest);
+
+            var deleteRequest = new TrackManage.DeleteByIds() { Ids = tracks.Select(x => x.Id).ToArray() };
+            await _mediator.Send(deleteRequest);
         }
     }
 }

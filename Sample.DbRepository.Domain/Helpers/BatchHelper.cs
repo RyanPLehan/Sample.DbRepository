@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 using Sample.DbRepository.Domain.Asserts;
 
@@ -15,6 +12,16 @@ namespace Sample.DbRepository.Domain.Helpers
     public static class BatchHelper
     {
         private const int MIN_BATCH_SIZE = 1;
+
+        public const int MIN_SKIP = 0;
+        public const int MIN_TAKE = 1;
+        public const int MAX_TAKE = 100;
+
+
+        public static int ApplySkip(int skip) => Math.Max(MIN_SKIP, skip);
+        public static int ApplyTake(int take) => Math.Min(Math.Max(MIN_TAKE, take), MAX_TAKE);
+
+
 
         public static void Batch<TValue>(int batchSize,
                                          IEnumerable<TValue> values, 

@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Contexts\Aggregation\Configurations\" />
-    <Folder Include="Contexts\Search\Configurations\" />
+    <Folder Include="Repositories\Aggregation\" />
   </ItemGroup>
   
 </Project>

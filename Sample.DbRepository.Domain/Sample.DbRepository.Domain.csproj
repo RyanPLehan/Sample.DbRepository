@@ -17,13 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregation\Customers\" />
-    <Folder Include="Aggregation\Products\" />
-    <Folder Include="Aggregation\Orders\" />
-    <Folder Include="Search\Carts\" />
-    <Folder Include="Search\Customers\" />
-    <Folder Include="Search\Orders\" />
-    <Folder Include="Search\Products\" />
+    <Folder Include="Aggregation\" />
   </ItemGroup>
   
 </Project>

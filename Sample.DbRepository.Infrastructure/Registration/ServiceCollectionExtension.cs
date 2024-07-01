@@ -29,11 +29,14 @@ namespace Sample.DbRepository.Infrastructure.Registration
             // Management
             services.AddSingleton<IManagement.IAlbumRepository, CManagement.AlbumRepository>();
             services.AddSingleton<IManagement.IArtistRepository, CManagement.ArtistRepository>();
-            services.AddSingleton<IManagement.IMediaTypeRepository, CManagement.MediaTypeRepository>();
             services.AddSingleton<IManagement.IGenreRepository, CManagement.GenreRepository>();
+            services.AddSingleton<IManagement.ITrackRepository, CManagement.TrackRepository>();
 
             // Search
             services.AddSingleton<ISearch.IAlbumRepository, CSearch.AlbumRepository>();
+            services.AddSingleton<ISearch.IArtistRepository, CSearch.ArtistRepository>();
+            services.AddSingleton<ISearch.IGenreRepository, CSearch.GenreRepository>();
+            services.AddSingleton<ISearch.ITrackRepository, CSearch.TrackRepository>();
 
             // Aggregation
             services.AddSingleton<IAggregation.IAlbumRepository, CAggregation.AlbumRepository>();

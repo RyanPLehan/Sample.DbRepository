@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Sample.DbRepository.Domain.Management.Tracks.Requests;
+using Sample.DbRepository.Domain.Search.Tracks.Requests;
 
 namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
 {
@@ -11,7 +12,7 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
         private readonly IMediator _mediator;
 
         public DeleteByAlbumHandler(ITrackRepository repository,
-                                     IMediator mediator)
+                                    IMediator mediator)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
             ArgumentNullException.ThrowIfNull(mediator, nameof(mediator));
@@ -22,7 +23,10 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
 
         public async Task<Unit> Handle(DeleteByAlbum request, CancellationToken cancellationToken)
         {
-            await _repository.DeleteByAlbum(request.AlbumId);
+            var findRequest = new FindByAlbum() { AlbumId = request.AlbumId };
+            var tracks = await _mediator.Send(findRequest);
+
+            await _repository.Delete(tracks.Select(x => x.Id).ToArray());
             return Unit.Value;
         }
     }

@@ -11,7 +11,6 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
         {
             builder.ToTable("Albums");
             builder.HasKey(x => x.Id);
-            builder.Ignore(x => x.Tracks);
 
             builder.Property(x => x.Id)
                    .HasColumnName("AlbumId")

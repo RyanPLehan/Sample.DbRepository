@@ -22,16 +22,9 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
 
         public async Task<Unit> Handle(Delete request, CancellationToken cancellationToken)
         {
-            // Automatically direct child tables just incase there is no casading deletes
-            await DeleteTracks(request.Id);
             await _repository.Delete(request.Id);
             return Unit.Value;
         }
 
-        private async Task DeleteTracks(int TrackId)
-        {
-            var wpDelete = new RequestWordPart.DeleteById() { WordId = wordId };
-            await _mediator.Send(wpDelete);
-        }
     }
 }

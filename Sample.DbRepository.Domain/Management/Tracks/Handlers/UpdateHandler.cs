@@ -23,8 +23,9 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
             Track entity = await _repository.GetForUpdate(request.Id);
             if (entity != null)
             {
-                entity.Title = request.Title;
-                entity = await _repository.Update(entity);
+                entity.Name = request.Name?.Trim();
+                entity.GenreId = request.GenreId;
+                entity.Composer = request.Composer?.Trim();
             }
 
             return entity;

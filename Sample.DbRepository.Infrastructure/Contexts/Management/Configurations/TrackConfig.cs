@@ -31,12 +31,6 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
                    .IsRequired(false)
                    .ValueGeneratedNever();
 
-            builder.Property(x => x.MediaTypeId)
-                   .HasColumnName("MediaTypeId")
-                   .HasColumnType("INTEGER")
-                   .IsRequired(true)
-                   .ValueGeneratedNever();
-
             builder.Property(x => x.GenreId)
                    .HasColumnName("GenreId")
                    .HasColumnType("INTEGER")

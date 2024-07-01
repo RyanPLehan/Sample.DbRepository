@@ -14,7 +14,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {
     internal sealed class GenreRepository : IGenreRepository
     {
-        private const string CACHE_KEY = "GenreRepository";
+        private const string CACHE_KEY = "Management_GenreRepository";
         private const int DEFAULT_EXPIRATION_TIME_IN_SECONDS = 60 * 15;      // 15 minutes
         private static MemoryCacheEntryOptions DefaultCacheEntryOptions = null;
 
