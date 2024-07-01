@@ -25,7 +25,7 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
                 AlbumId = request.AlbumId,
                 GenreId = request.GenreId,
                 Composer = request.Composer?.Trim(),
-                PlayLengthInMilliseconds = request.PlayLengthInMilliseconds,
+                PlayTimeInMilliseconds = request.PlayLengthInMilliseconds,
                 SizeInBytes = request.SizeInBytes,
             };
 

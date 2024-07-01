@@ -15,5 +15,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sample.DbRepository.Domain\Sample.DbRepository.Domain.csproj" />
+    <ProjectReference Include="..\Sample.DbRepository.Infrastructure\Sample.DbRepository.Infrastructure.csproj" />
   </ItemGroup>  
 </Project>

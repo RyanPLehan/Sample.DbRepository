@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sample.DbRepository.Domain.Infrastructure;
+using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Domain.Search;
 using Sample.DbRepository.Domain.Search.Models;
 using Sample.DbRepository.Infrastructure.Contexts.Search;
@@ -30,6 +30,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             using (var context = _contextFactory.CreateQueyContext())
             {
                 entities = await context.Tracks
+                                        .OrderBy(x => x.Id)
                                         .Skip(skip)
                                         .Take(take)
                                         .ToArrayAsync();
@@ -59,7 +60,8 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             using (var context = _contextFactory.CreateQueyContext())
             {
                 entities = await context.Tracks
-                                        .Where(x => albumIds.Contains(x.AlbumId))
+                                        .Where(x => x.AlbumId != null &&
+                                                    albumIds.Contains(x.AlbumId.Value))
                                         .ToArrayAsync();
             }
 
@@ -104,7 +106,8 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             using (var context = _contextFactory.CreateQueyContext())
             {
                 entities = await context.Tracks
-                                        .Where(x => genreIds.Contains(x.GenreId))
+                                        .Where(x => x.GenreId != null &&
+                                                    genreIds.Contains(x.GenreId.Value))
                                         .ToArrayAsync();
             }
 

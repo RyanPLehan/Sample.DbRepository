@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.DbRepository.Domain.Management.Models;
+using Sample.DbRepository.Domain.Aggregation.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
+namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation.Configurations
 {
     internal sealed class TrackConfig : IEntityTypeConfiguration<Track>
     {
@@ -18,13 +18,6 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
                    .IsRequired(true)
                    .ValueGeneratedOnAdd();
 
-            builder.Property(x => x.Name)
-                   .HasColumnName("Name")
-                   .HasColumnType("NVARCHAR(200)")
-                   .HasMaxLength(200)
-                   .IsRequired(true)
-                   .IsUnicode(true);
-
             builder.Property(x => x.AlbumId)
                    .HasColumnName("AlbumId")
                    .HasColumnType("INTEGER")
@@ -36,13 +29,6 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
                    .HasColumnType("INTEGER")
                    .IsRequired(false)
                    .ValueGeneratedNever();
-
-            builder.Property(x => x.Composer)
-                   .HasColumnName("Composer")
-                   .HasColumnType("NVARCHAR(220)")
-                   .HasMaxLength(220)
-                   .IsRequired(false)
-                   .IsUnicode(true);
 
             builder.Property(x => x.PlayTimeInMilliseconds)
                    .HasColumnName("Milliseconds")

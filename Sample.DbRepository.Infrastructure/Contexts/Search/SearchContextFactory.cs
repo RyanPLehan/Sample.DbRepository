@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Sample.DbRepository.Domain.Infrastructure;
+using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Infrastructure.Configurations;
 
 namespace Sample.DbRepository.Infrastructure.Contexts.Search

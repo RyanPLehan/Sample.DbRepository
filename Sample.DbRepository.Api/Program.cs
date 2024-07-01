@@ -1,3 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using Sample.DbRepository.Infrastructure.Registration;
+using System.Reflection;
+
 
 namespace Sample.DbRepository.Api
 {
@@ -14,6 +18,9 @@ namespace Sample.DbRepository.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Add in this application specific services
+            AppServices(builder.Services);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -24,13 +31,27 @@ namespace Sample.DbRepository.Api
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void AppServices(IServiceCollection services)
+        {
+            // Load selected assemblies
+            Assembly[] assemblies = new Assembly[]
+                    {
+                        typeof(Sample.DbRepository.Api.Program).Assembly,
+                        typeof(Sample.DbRepository.Domain.AutoMapper.Profiles.ConvertersMappingProfile).Assembly,
+                        typeof(Sample.DbRepository.Infrastructure.Registration.ServiceCollectionExtension).Assembly,
+
+                    };
+
+            services.AddAutoMapper(assemblies);
+            services.AddMediatR(x => x.RegisterServicesFromAssemblies(assemblies));
+
+            services.AddInfrastructure();
         }
     }
 }

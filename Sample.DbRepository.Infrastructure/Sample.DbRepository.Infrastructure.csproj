@@ -20,10 +20,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Sample.DbRepository.Domain\Sample.DbRepository.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Contexts\Aggregation\Configurations\" />
-    <Folder Include="Repositories\Aggregation\" />
-  </ItemGroup>
   
 </Project>

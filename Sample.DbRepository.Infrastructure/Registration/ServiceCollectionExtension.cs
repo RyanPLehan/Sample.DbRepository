@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using Sample.DbRepository.Domain.Infrastructure;
+using Sample.DbRepository.Infrastructure;
 using IManagement = Sample.DbRepository.Domain.Management;
 using CManagement = Sample.DbRepository.Infrastructure.Repositories.Management;
 using ISearch = Sample.DbRepository.Domain.Search;
@@ -40,6 +40,8 @@ namespace Sample.DbRepository.Infrastructure.Registration
 
             // Aggregation
             services.AddSingleton<IAggregation.IAlbumRepository, CAggregation.AlbumRepository>();
+            services.AddSingleton<IAggregation.IArtistRepository, CAggregation.ArtistRepository>();
+            services.AddSingleton<IAggregation.ITrackRepository, CAggregation.TrackRepository>();
 
             return services;
         }
