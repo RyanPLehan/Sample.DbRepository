@@ -33,8 +33,6 @@ namespace Sample.DbRepository.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] int skip = 0,
                                                 [FromQuery] int take = 10)
         {
-            IEnumerable<Genre> response = null;
-
             Task<IEnumerable<Genre>> taskGenre = GetGenres(skip, take);
             Task<IDictionary<int, int>> taskTrackCount = GetTrackCountByGenre();
             await Task.WhenAll(taskGenre, taskTrackCount);

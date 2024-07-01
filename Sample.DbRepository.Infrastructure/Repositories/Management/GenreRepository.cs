@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Sample.DbRepository.Domain.Infrastructure;
+using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Domain.Management;
 using Sample.DbRepository.Domain.Management.Models;
 using Sample.DbRepository.Infrastructure.Contexts.Management;
