@@ -6,10 +6,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Sample.DbRepository.Domain.Helpers;
-using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Domain.Management;
 using Sample.DbRepository.Domain.Management.Models;
-using Sample.DbRepository.Infrastructure.Contexts.Management;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {

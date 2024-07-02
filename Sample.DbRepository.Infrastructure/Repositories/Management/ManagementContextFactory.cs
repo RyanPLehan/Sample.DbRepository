@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Infrastructure.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Search
+namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {
-    public sealed class SearchContextFactory : IContextFactory<SearchContext>
+    public sealed class ManagementContextFactory : IContextFactory<ManagementContext>
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly DatabaseSettings _settings;
 
-        public SearchContextFactory(ILoggerFactory loggerFactory,
-                                    IOptions<DatabaseSettings> settings)
+        public ManagementContextFactory(ILoggerFactory loggerFactory,
+                                       IOptions<DatabaseSettings> settings)
         {
             ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
             ArgumentNullException.ThrowIfNull(settings?.Value, nameof(settings));
@@ -24,19 +23,23 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Search
             _settings = settings.Value;
         }
 
-        public SearchContext CreateCommandContext()
+        public ManagementContext CreateCommandContext()
         {
-            throw new NotImplementedException("Cannot create a command context");
+            var optionsBuilder = new DbContextOptionsBuilder<ManagementContext>()
+                                            .UseLoggerFactory(_loggerFactory)
+                                            .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
+
+            return new ManagementContext(optionsBuilder.Options);
         }
 
-        public SearchContext CreateQueyContext()
+        public ManagementContext CreateQueyContext()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SearchContext>()
+            var optionsBuilder = new DbContextOptionsBuilder<ManagementContext>()
                                             .UseLoggerFactory(_loggerFactory)
                                             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                                             .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
 
-            return new SearchContext(optionsBuilder.Options);
+            return new ManagementContext(optionsBuilder.Options);
         }
 
         /// <summary>

@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Sample.DbRepository.Infrastructure.Contexts;
 using Sample.DbRepository.Infrastructure.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation
+
+namespace Sample.DbRepository.Infrastructure.Repositories.Search
 {
-    public sealed class AggregationContextFactory : IContextFactory<AggregationContext>
+    public sealed class SearchContextFactory : IContextFactory<SearchContext>
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly DatabaseSettings _settings;
 
-        public AggregationContextFactory(ILoggerFactory loggerFactory,
-                                         IOptions<DatabaseSettings> settings)
+        public SearchContextFactory(ILoggerFactory loggerFactory,
+                                    IOptions<DatabaseSettings> settings)
         {
             ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
             ArgumentNullException.ThrowIfNull(settings?.Value, nameof(settings));
@@ -24,19 +24,19 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation
             _settings = settings.Value;
         }
 
-        public AggregationContext CreateCommandContext()
+        public SearchContext CreateCommandContext()
         {
             throw new NotImplementedException("Cannot create a command context");
         }
 
-        public AggregationContext CreateQueyContext()
+        public SearchContext CreateQueyContext()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AggregationContext>()
+            var optionsBuilder = new DbContextOptionsBuilder<SearchContext>()
                                             .UseLoggerFactory(_loggerFactory)
                                             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                                             .UseSqlite(BuildConnectionString(), AddDatabaseOptions);
 
-            return new AggregationContext(optionsBuilder.Options);
+            return new SearchContext(optionsBuilder.Options);
         }
 
         /// <summary>

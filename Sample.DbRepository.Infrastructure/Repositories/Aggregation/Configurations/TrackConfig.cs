@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sample.DbRepository.Domain.Aggregation.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Aggregation.Configurations
+namespace Sample.DbRepository.Infrastructure.Repositories.Aggregation.Configurations
 {
     internal sealed class TrackConfig : IEntityTypeConfiguration<Track>
     {

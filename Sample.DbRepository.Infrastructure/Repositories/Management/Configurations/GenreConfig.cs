@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
+namespace Sample.DbRepository.Infrastructure.Repositories.Management.Configurations
 {
     internal sealed class GenreConfig : IEntityTypeConfiguration<Genre>
     {

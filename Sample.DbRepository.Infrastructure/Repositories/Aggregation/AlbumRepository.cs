@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Domain.Aggregation;
 using Sample.DbRepository.Domain.Aggregation.Models;
-using Sample.DbRepository.Infrastructure.Contexts.Aggregation;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Aggregation
 {

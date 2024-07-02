@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.DbRepository.Domain.Management.Models;
+using Sample.DbRepository.Domain.Search.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
+namespace Sample.DbRepository.Infrastructure.Repositories.Search.Configurations
 {
     internal sealed class ArtistConfig : IEntityTypeConfiguration<Artist>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.DbRepository.Domain.Management.Models;
+using Sample.DbRepository.Domain.Search.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
+namespace Sample.DbRepository.Infrastructure.Repositories.Search.Configurations
 {
     internal sealed class TrackConfig : IEntityTypeConfiguration<Track>
     {
@@ -43,18 +43,6 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
                    .HasMaxLength(220)
                    .IsRequired(false)
                    .IsUnicode(true);
-
-            builder.Property(x => x.Milliseconds)
-                   .HasColumnName("Milliseconds")
-                   .HasColumnType("INTEGER")
-                   .IsRequired(true)
-                   .ValueGeneratedNever();
-
-            builder.Property(x => x.Bytes)
-                   .HasColumnName("Bytes")
-                   .HasColumnType("INTEGER")
-                   .IsRequired(false)
-                   .ValueGeneratedNever();
         }
     }
 }

@@ -4,10 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Sample.DbRepository.Infrastructure;
 using Sample.DbRepository.Domain.Search;
 using Sample.DbRepository.Domain.Search.Models;
-using Sample.DbRepository.Infrastructure.Contexts.Search;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Search
 {

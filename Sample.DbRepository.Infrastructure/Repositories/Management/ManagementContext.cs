@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Sample.DbRepository.Domain.Management.Models;
-using Sample.DbRepository.Infrastructure.Contexts.Management.Configurations;
+using Sample.DbRepository.Infrastructure.Repositories.Management.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Management
+namespace Sample.DbRepository.Infrastructure.Repositories.Management
 {
     public sealed class ManagementContext : DbContext
     {

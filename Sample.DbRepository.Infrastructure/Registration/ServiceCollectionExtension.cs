@@ -1,15 +1,15 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using Sample.DbRepository.Infrastructure;
 using IManagement = Sample.DbRepository.Domain.Management;
 using CManagement = Sample.DbRepository.Infrastructure.Repositories.Management;
 using ISearch = Sample.DbRepository.Domain.Search;
 using CSearch = Sample.DbRepository.Infrastructure.Repositories.Search;
 using IAggregation = Sample.DbRepository.Domain.Aggregation;
 using CAggregation = Sample.DbRepository.Infrastructure.Repositories.Aggregation;
-using Sample.DbRepository.Infrastructure.Contexts.Aggregation;
-using Sample.DbRepository.Infrastructure.Contexts.Search;
-using Sample.DbRepository.Infrastructure.Contexts.Management;
+using Sample.DbRepository.Infrastructure.Repositories;
+using Sample.DbRepository.Infrastructure.Repositories.Aggregation;
+using Sample.DbRepository.Infrastructure.Repositories.Management;
+using Sample.DbRepository.Infrastructure.Repositories.Search;
 
 
 namespace Sample.DbRepository.Infrastructure.Registration

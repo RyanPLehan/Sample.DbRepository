@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Sample.DbRepository.Domain.Search.Models;
-using Sample.DbRepository.Infrastructure.Contexts.Search.Configurations;
+using Sample.DbRepository.Infrastructure.Repositories.Search.Configurations;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Search
+namespace Sample.DbRepository.Infrastructure.Repositories.Search
 {
     /// <summary>
     /// Using a separate Search Context because we may want to take advantage of the following

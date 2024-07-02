@@ -1,19 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.DbRepository.Domain.Search.Models;
+using Sample.DbRepository.Domain.Management.Models;
 
-namespace Sample.DbRepository.Infrastructure.Contexts.Search.Configurations
+namespace Sample.DbRepository.Infrastructure.Repositories.Management.Configurations
 {
-    internal sealed class GenreConfig : IEntityTypeConfiguration<Genre>
+    internal sealed class ArtistConfig : IEntityTypeConfiguration<Artist>
     {
-        public void Configure(EntityTypeBuilder<Genre> builder)
+        public void Configure(EntityTypeBuilder<Artist> builder)
         {
-            builder.ToTable("Genres");
+            builder.ToTable("Artists");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                   .HasColumnName("GenreId")
+                   .HasColumnName("ArtistId")
                    .HasColumnType("INTEGER")
                    .IsRequired(true)
                    .ValueGeneratedOnAdd();
