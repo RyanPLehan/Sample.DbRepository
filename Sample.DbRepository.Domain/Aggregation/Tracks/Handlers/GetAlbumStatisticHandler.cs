@@ -7,20 +7,20 @@ using Sample.DbRepository.Domain.Aggregation.Models;
 
 namespace Sample.DbRepository.Domain.Aggregation.Tracks.Handlers
 {
-    internal class GetAlbumPlayTimeHandler : IRequestHandler<GetAlbumPlayTime, long>
+    internal class GetAlbumStatisticHandler : IRequestHandler<GetAlbumStatistic, AlbumStatistic>
     {
         private readonly ITrackRepository _repository;
 
-        public GetAlbumPlayTimeHandler(ITrackRepository repository)
+        public GetAlbumStatisticHandler(ITrackRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
 
             _repository = repository;
         }
 
-        public async Task<long> Handle(GetAlbumPlayTime request, CancellationToken cancellationToken)
+        public async Task<AlbumStatistic> Handle(GetAlbumStatistic request, CancellationToken cancellationToken)
         {
-            return await _repository.GetPlayTime(request.AlbumId);
+            return await _repository.GetAlbumStatistic(request.AlbumId);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Sample.DbRepository.Infrastructure.Contexts.Management.Configurations
                    .ValueGeneratedOnAdd();
 
             builder.Property(x => x.Name)
-                   .HasColumnName("Title")
+                   .HasColumnName("Name")
                    .HasColumnType("NVARCHAR(120)")
                    .HasMaxLength(120)
                    .IsRequired(false)

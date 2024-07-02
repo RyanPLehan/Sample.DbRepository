@@ -7,7 +7,7 @@ namespace Sample.DbRepository.Domain.Aggregation.Models
         public int Id { get; set; }
         public int? AlbumId {  get; set; }
         public int? GenreId { get; set; }
-        public int PlayTimeInMilliseconds { get; set; }
-        public int SizeInBytes { get; set; } = 0;
+        public int Milliseconds { get; set; } = 0;
+        public int? Bytes { get; set; } = 0;
     }
 }

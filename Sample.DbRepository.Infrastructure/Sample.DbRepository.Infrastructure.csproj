@@ -20,5 +20,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Sample.DbRepository.Domain\Sample.DbRepository.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Database\chinook.db" Link="Database\chinook.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>

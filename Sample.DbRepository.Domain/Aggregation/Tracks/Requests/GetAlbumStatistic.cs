@@ -5,7 +5,7 @@ using Sample.DbRepository.Domain.Aggregation.Models;
 
 namespace Sample.DbRepository.Domain.Aggregation.Tracks.Requests
 {
-    public class GetAlbumSize : IRequest<long>
+    public class GetAlbumStatistic : IRequest<AlbumStatistic>
     {
         public int AlbumId { get; set; }
     }

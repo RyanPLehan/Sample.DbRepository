@@ -5,13 +5,13 @@ using Sample.DbRepository.Api.Models;
 using TracksAggregation = Sample.DbRepository.Domain.Aggregation.Tracks.Requests;
 using SearchModels = Sample.DbRepository.Domain.Search.Models;
 using GenreSearch = Sample.DbRepository.Domain.Search.Genres.Requests;
-using System.Runtime.CompilerServices;
-using Sample.DbRepository.Domain.Aggregation.Tracks.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sample.DbRepository.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [AllowAnonymous]
     public class GenresController : ControllerBase
     {
         private readonly ILogger<GenresController> _logger;

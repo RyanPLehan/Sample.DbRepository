@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
+using Sample.DbRepository.Infrastructure.Configurations;
 using Sample.DbRepository.Infrastructure.Registration;
 using System.Reflection;
 
@@ -51,6 +53,7 @@ namespace Sample.DbRepository.Api
             services.AddAutoMapper(assemblies);
             services.AddMediatR(x => x.RegisterServicesFromAssemblies(assemblies));
 
+            services.AddOptions<DatabaseSettings>().BindConfiguration(DatabaseSettings.CONFIGURATION_SECTION);
             services.AddInfrastructure();
         }
     }

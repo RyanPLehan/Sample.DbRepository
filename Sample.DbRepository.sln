@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.DbRepository.Api", "Sample.DbRepository.Api\Sample.DbRepository.Api.csproj", "{A8FCBFDE-88E7-4B0D-AC23-DCBEB18B4641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.DbRepository.Api", "Sample.DbRepository.Api\Sample.DbRepository.Api.csproj", "{A8FCBFDE-88E7-4B0D-AC23-DCBEB18B4641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.DbRepository.Domain", "Sample.DbRepository.Domain\Sample.DbRepository.Domain.csproj", "{9F92A1D5-A63C-4410-A060-4412BAC87022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.DbRepository.Domain", "Sample.DbRepository.Domain\Sample.DbRepository.Domain.csproj", "{9F92A1D5-A63C-4410-A060-4412BAC87022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.DbRepository.Infrastructure", "Sample.DbRepository.Infrastructure\Sample.DbRepository.Infrastructure.csproj", "{30A0BE89-72F7-4385-9F77-D0B6B93B6328}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.DbRepository.Infrastructure", "Sample.DbRepository.Infrastructure\Sample.DbRepository.Infrastructure.csproj", "{30A0BE89-72F7-4385-9F77-D0B6B93B6328}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
