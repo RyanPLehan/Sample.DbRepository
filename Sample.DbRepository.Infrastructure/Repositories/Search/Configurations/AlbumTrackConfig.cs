@@ -50,7 +50,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search.Configurations
             builder.Property(x => x.AlbumId)
                    .HasColumnName("AlbumId")
                    .HasColumnType("INTEGER")
-                   .IsRequired(false)
+                   .IsRequired(true)
                    .ValueGeneratedNever();
 
             builder.Property(x => x.GenreId)
