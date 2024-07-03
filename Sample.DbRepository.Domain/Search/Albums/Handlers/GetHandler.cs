@@ -7,7 +7,7 @@ using Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Domain.Search.Albums.Handlers
 {
-    internal class GetHandler : IRequestHandler<Get, IEnumerable<Album>>
+    internal class GetHandler : IRequestHandler<GetAll, IEnumerable<AlbumArtist>>
     {
         private readonly IAlbumRepository _repository;
 
@@ -18,12 +18,12 @@ namespace Sample.DbRepository.Domain.Search.Albums.Handlers
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Album>> Handle(Get request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AlbumArtist>> Handle(GetAll request, CancellationToken cancellationToken)
         {
             int skip = BatchHelper.ApplySkip(request.Skip);
             int take = BatchHelper.ApplySkip(request.Take);
 
-            return await _repository.Get(skip, take);
+            return await _repository.GetAll(skip, take);
         }
     }
 }

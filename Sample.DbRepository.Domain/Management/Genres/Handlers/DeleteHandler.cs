@@ -40,8 +40,8 @@ namespace Sample.DbRepository.Domain.Management.Genres.Handlers
             {
                 var updateRequest = new TrackManage.Update()
                 {
-                    Id = track.Id,
-                    Name = track.Name,
+                    Id = track.TrackId,
+                    Name = track.TrackName,
                     Composer = track.Composer,
                     GenreId = null,
                 };

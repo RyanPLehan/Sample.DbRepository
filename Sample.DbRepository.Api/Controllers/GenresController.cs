@@ -2,9 +2,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Sample.DbRepository.Api.Models;
-using TracksAggregation = Sample.DbRepository.Domain.Aggregation.Tracks.Requests;
 using SearchModels = Sample.DbRepository.Domain.Search.Models;
 using GenreSearch = Sample.DbRepository.Domain.Search.Genres.Requests;
+using TracksSearch = Sample.DbRepository.Domain.Search.Tracks.Requests;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Sample.DbRepository.Api.Controllers
@@ -33,23 +33,19 @@ namespace Sample.DbRepository.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] int skip = 0,
                                                 [FromQuery] int take = 10)
         {
-            Task<IEnumerable<Genre>> taskGenre = GetGenres(skip, take);
-            Task<IDictionary<int, int>> taskTrackCount = GetTrackCountByGenre();
-            await Task.WhenAll(taskGenre, taskTrackCount);
-
-            var genres = await taskGenre;
-            var trackCounts = await taskTrackCount;
+            var genres = await GetGenres(skip, take);
+            var tracks = await GetTracks(genres);
 
             if (genres == null ||
                 !genres.Any())
                 return NoContent();
             else
-                return Ok(AppendTrackCount(genres, trackCounts));
+                return Ok(AppendTrackCount(genres, tracks));
         }
 
         private async Task<IEnumerable<Genre>> GetGenres(int skip, int take)
         {
-            var request = new GenreSearch.Get()
+            var request = new GenreSearch.GetAll()
             {
                 Skip = skip,
                 Take = take,
@@ -59,18 +55,18 @@ namespace Sample.DbRepository.Api.Controllers
             return _mapper.Map<IEnumerable<SearchModels.Genre>, IEnumerable<Genre>>(response);
         }
 
-        private async Task<IDictionary<int, int>> GetTrackCountByGenre()
+        private async Task<IEnumerable<SearchModels.AlbumTrack>> GetTracks(IEnumerable<Genre> genres)
         {
-            var request = new TracksAggregation.GetCountByGenre();
+            var request = new TracksSearch.FindByGenres() { GenreIds = genres.Select(x => x.GenreId).ToArray() };
             return await _mediator.Send(request);
         }
 
 
-        private IEnumerable<Genre> AppendTrackCount(IEnumerable<Genre> genres, IDictionary<int, int> trackCounts)
+        private IEnumerable<Genre> AppendTrackCount(IEnumerable<Genre> genres, IEnumerable<SearchModels.AlbumTrack> tracks)
         {
-            foreach(Genre genre in genres)
+            foreach (Genre genre in genres)
             {
-                genre.Tracks = trackCounts[genre.GenreId];
+                genre.Tracks = tracks.Where(x => x.GenreId == genre.GenreId).Count();
             }
 
             return genres;

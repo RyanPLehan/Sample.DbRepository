@@ -7,7 +7,9 @@ namespace Sample.DbRepository.Domain.Search
 {
     public interface IArtistRepository
     {
-        Task<IEnumerable<Artist>> Get(int skip, int take);
+        Task<IEnumerable<Artist>> GetAll(int skip, int take);
+        Task<Artist> FindByArtist(int artistId);
+        Task<IEnumerable<Artist>> FindByArtist(IEnumerable<int> artistId);
         Task<IEnumerable<Artist>> FindByName(string name);
     }
 }

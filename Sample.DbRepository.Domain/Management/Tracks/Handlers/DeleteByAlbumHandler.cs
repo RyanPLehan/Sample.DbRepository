@@ -26,7 +26,7 @@ namespace Sample.DbRepository.Domain.Management.Tracks.Handlers
             var findRequest = new FindByAlbum() { AlbumId = request.AlbumId };
             var tracks = await _mediator.Send(findRequest);
 
-            await _repository.Delete(tracks.Select(x => x.Id).ToArray());
+            await _repository.Delete(tracks.Select(x => x.TrackId).ToArray());
             return Unit.Value;
         }
     }

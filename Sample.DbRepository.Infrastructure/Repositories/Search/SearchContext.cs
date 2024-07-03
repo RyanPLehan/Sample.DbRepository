@@ -22,19 +22,19 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
         {
         }
 
-        internal DbSet<Album> Albums { get; set; }
+        internal DbSet<AlbumArtist> Albums { get; set; }
         internal DbSet<Artist> Artists { get; set; }
         internal DbSet<Genre> Genres { get; set; }
-        internal DbSet<Track> Tracks { get; set; }
+        internal DbSet<AlbumTrack> Tracks { get; set; }
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AlbumConfig());
+            modelBuilder.ApplyConfiguration(new AlbumArtistConfig());
             modelBuilder.ApplyConfiguration(new ArtistConfig());
             modelBuilder.ApplyConfiguration(new GenreConfig());
-            modelBuilder.ApplyConfiguration(new TrackConfig());
+            modelBuilder.ApplyConfiguration(new AlbumTrackConfig());
         }
     }
 }

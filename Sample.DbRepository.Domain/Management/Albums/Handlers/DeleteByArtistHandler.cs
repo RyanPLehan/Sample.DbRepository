@@ -26,13 +26,14 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
         public async Task<Unit> Handle(DeleteByArtist request, CancellationToken cancellationToken)
         {
             // No Casading Deletes, must do it manually (should implement transactions)
-            var albums = await FindAlbums(request.ArtistId);            
-            await DeleteTracks(albums.Select(x => x.Id).ToArray());
-            await _repository.Delete(albums.Select(x => x.Id).ToArray());
+            var albums = await FindAlbums(request.ArtistId);
+            var albumIds = albums.Select(x => x.AlbumId).ToArray();
+            await DeleteTracks(albumIds);
+            await _repository.Delete(albumIds);
             return Unit.Value;
         }
 
-        private async Task<IEnumerable<Search.Models.Album>> FindAlbums(int artistId)
+        private async Task<IEnumerable<Search.Models.AlbumArtist>> FindAlbums(int artistId)
         {
             var findRequest = new Search.Albums.Requests.FindByArtist() { ArtistId = artistId };
             return await _mediator.Send(findRequest);
@@ -44,7 +45,7 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
             var findRequest = new TrackSearch.FindByAlbums() { AlbumIds = albumIds };
             var tracks = await _mediator.Send(findRequest);
 
-            var deleteRequest = new TrackManage.DeleteByIds() { Ids = tracks.Select(x => x.Id).ToArray() };
+            var deleteRequest = new TrackManage.DeleteByIds() { Ids = tracks.Select(x => x.TrackId).ToArray() };
             await _mediator.Send(deleteRequest);
         }
     }

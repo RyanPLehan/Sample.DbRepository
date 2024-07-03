@@ -5,7 +5,7 @@ using Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Domain.Search.Tracks.Requests
 {
-    public class FindByGenres : IRequest<IEnumerable<Track>>
+    public class FindByGenres : IRequest<IEnumerable<AlbumTrack>>
     {
         public IEnumerable<int> GenreIds { get; set; }
     }

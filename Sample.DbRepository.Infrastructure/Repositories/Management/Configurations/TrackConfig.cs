@@ -44,13 +44,13 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Management.Configurati
                    .IsRequired(false)
                    .IsUnicode(true);
 
-            builder.Property(x => x.Milliseconds)
+            builder.Property(x => x.PlayTimeInMilliseconds)
                    .HasColumnName("Milliseconds")
                    .HasColumnType("INTEGER")
                    .IsRequired(true)
                    .ValueGeneratedNever();
 
-            builder.Property(x => x.Bytes)
+            builder.Property(x => x.SizeInBytes)
                    .HasColumnName("Bytes")
                    .HasColumnType("INTEGER")
                    .IsRequired(false)

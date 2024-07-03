@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Sample.DbRepository.Domain.Aggregation.Models;
 using Sample.DbRepository.Infrastructure.Repositories.Aggregation.Configurations;
+using Sample.DbRepository.Infrastructure.Repositories.Aggregation.Models;
 
 namespace Sample.DbRepository.Infrastructure.Repositories.Aggregation
 {
@@ -22,15 +22,12 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Aggregation
         {
         }
 
-        internal DbSet<Album> Albums { get; set; }
-        internal DbSet<Artist> Artists { get; set; }
         internal DbSet<Track> Tracks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AlbumConfig());
-            modelBuilder.ApplyConfiguration(new ArtistConfig());
+            modelBuilder.ApplyConfiguration(new TrackConfig());
         }
     }
 }

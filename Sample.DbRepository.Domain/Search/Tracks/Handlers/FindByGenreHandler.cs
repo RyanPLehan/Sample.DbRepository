@@ -6,7 +6,7 @@ using Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Domain.Search.Tracks.Handlers
 {
-    internal class FindByGenreHandler : IRequestHandler<FindByGenre, IEnumerable<Track>>
+    internal class FindByGenreHandler : IRequestHandler<FindByGenre, IEnumerable<AlbumTrack>>
     {
         private readonly ITrackRepository _repository;
 
@@ -17,7 +17,7 @@ namespace Sample.DbRepository.Domain.Search.Tracks.Handlers
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Track>> Handle(FindByGenre request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AlbumTrack>> Handle(FindByGenre request, CancellationToken cancellationToken)
         {
             return await _repository.FindByGenre(request.GenreId);
         }

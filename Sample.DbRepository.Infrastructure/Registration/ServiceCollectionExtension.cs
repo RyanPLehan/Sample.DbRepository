@@ -39,8 +39,6 @@ namespace Sample.DbRepository.Infrastructure.Registration
             services.AddSingleton<ISearch.ITrackRepository, CSearch.TrackRepository>();
 
             // Aggregation
-            services.AddSingleton<IAggregation.IAlbumRepository, CAggregation.AlbumRepository>();
-            services.AddSingleton<IAggregation.IArtistRepository, CAggregation.ArtistRepository>();
             services.AddSingleton<IAggregation.ITrackRepository, CAggregation.TrackRepository>();
 
             return services;

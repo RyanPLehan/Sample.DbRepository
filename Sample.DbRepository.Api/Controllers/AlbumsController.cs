@@ -2,13 +2,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Sample.DbRepository.Api.Models;
-using TracksAggregation = Sample.DbRepository.Domain.Aggregation.Tracks.Requests;
+using TracksAggregation = Sample.DbRepository.Domain.Aggregation.Albums.Requests;
 using AggregationModels = Sample.DbRepository.Domain.Aggregation.Models;
-using ManageModels = Sample.DbRepository.Domain.Management.Models;
 using SearchModels = Sample.DbRepository.Domain.Search.Models;
 using AlbumSearch = Sample.DbRepository.Domain.Search.Albums.Requests;
-using AlbumManage = Sample.DbRepository.Domain.Management.Albums.Requests;
-using ArtistManage = Sample.DbRepository.Domain.Management.Artists.Requests;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Sample.DbRepository.Api.Controllers
@@ -37,22 +34,13 @@ namespace Sample.DbRepository.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] int skip = 0,
                                                 [FromQuery] int take = 10)
         {
-            var albumsRequest = new AlbumSearch.Get()
-            {
-                Skip = skip,
-                Take = take,
-            };
+            var albumArtistsRequest = new AlbumSearch.GetAll() { Skip = skip, Take = take, };
+            var albumArtists = await _mediator.Send(albumArtistsRequest);
 
-            var albumsResponse = await _mediator.Send(albumsRequest);
-
-            if (albumsResponse == null ||
-                !albumsResponse.Any())
+            if (albumArtists == null || !albumArtists.Any())
                 return NoContent();
             else
-            {
-                var response = _mapper.Map<IEnumerable<SearchModels.Album>, IEnumerable<Album>>(albumsResponse);
-                return Ok(response.Select(x => new { AlbumId = x.AlbumId, Title = x.Title }));
-            }
+                return Ok(albumArtists.Select(x => new { AlbumId = x.AlbumId, Title = x.AlbumTitle }));
         }
 
         [HttpGet]
@@ -71,35 +59,26 @@ namespace Sample.DbRepository.Api.Controllers
             await Task.WhenAll(taskAlbum, taskAlbumStat);
 
             var album = await taskAlbum;
+            var albumStat = await taskAlbumStat;
 
             if (album == null)
                 return NoContent();
             else
-            {
-                var artist = await GetArtist(album.ArtistId);
-                _mapper.Map<ManageModels.Artist, Album>(artist, album);
-                return Ok(_mapper.Map<AggregationModels.AlbumStatistic, Album>(await taskAlbumStat, album));
-            }
+                return Ok(_mapper.Map<AggregationModels.AlbumStatistic, Album>(albumStat, album));
         }
 
 
         private async Task<Album> GetAlbum(int id)
         {
-            var request = new AlbumManage.Get() { Id = id };
+            var request = new AlbumSearch.FindByAlbum() { AlbumId = id };
             var response = await _mediator.Send(request);
-            return _mapper.Map<ManageModels.Album, Album>(response);
+            return _mapper.Map<SearchModels.AlbumArtist, Album>(response);
         }
 
 
         private async Task<AggregationModels.AlbumStatistic> GetAlbumStatistic(int albumId)
         {
-            var request = new TracksAggregation.GetAlbumStatistic() { AlbumId = albumId };
-            return await _mediator.Send(request);
-        }
-
-        private async Task<ManageModels.Artist> GetArtist(int artistId)
-        {
-            var request = new ArtistManage.Get() { Id = artistId };
+            var request = new TracksAggregation.CalcStatisticByAlbum() { AlbumId = albumId };
             return await _mediator.Send(request);
         }
     }

@@ -5,7 +5,7 @@ using Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Domain.Search.Albums.Requests
 {
-    public class FindByArtist : IRequest<IEnumerable<Album>>
+    public class FindByArtist : IRequest<IEnumerable<AlbumArtist>>
     {
         public int ArtistId { get; set; }
     }

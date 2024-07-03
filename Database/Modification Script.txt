@@ -1,0 +1,101 @@
+-- Script to modify original Chinook.db database
+-- Modify Database
+DROP TABLE IF EXISTS [playlist_track];
+DROP TABLE IF EXISTS [playlists];
+
+DROP TABLE IF EXISTS [invoice_items];
+DROP TABLE IF EXISTS [invoices];
+
+DROP TABLE IF EXISTS [customers];
+DROP TABLE IF EXISTS [employees];
+
+ALTER TABLE [tracks] DROP COLUMN [UnitPrice];
+
+-- This drops the foreign key constraint
+-- Take from: https://database.guide/how-to-drop-a-foreign-key-in-sqlite/
+PRAGMA foreign_keys = OFF;
+--BEGIN TRANSACTION;
+
+-- Drop indices 
+DROP INDEX IF EXISTS [IFK_TrackMediaTypeId];
+DROP INDEX IF EXISTS [IFK_TrackAlbumId];
+DROP INDEX IF EXISTS [IFK_TrackGenreId]
+
+CREATE TABLE [tracks_new]
+(
+	TrackId			INTEGER 		NOT NULL
+,	[Name] 			NVARCHAR(200)  	NOT NULL
+,   [AlbumId] 		INTEGER
+,   [MediaTypeId] 	INTEGER  		NOT NULL
+,   [GenreId] 		INTEGER
+,   [Composer] 		NVARCHAR(220)
+,   [Milliseconds] 	INTEGER  		NOT NULL
+,   [Bytes] 		INTEGER
+,	PRIMARY KEY([TrackID] AUTOINCREMENT)
+,   FOREIGN KEY ([AlbumId]) REFERENCES [albums] ([AlbumId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+,   FOREIGN KEY ([GenreId]) REFERENCES [genres] ([GenreId]) 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO [tracks_new]
+(
+	[TrackId]
+,	[Name]
+,   [AlbumId]
+,   [MediaTypeId]
+,   [GenreId]
+,   [Composer]
+,   [Milliseconds]
+,   [Bytes]
+)
+SELECT	[TrackId]
+	,	[Name]
+	,   [AlbumId]
+	,   [MediaTypeId]
+	,   [GenreId]
+	,   [Composer]
+	,   [Milliseconds]
+	,   [Bytes]
+FROM	[tracks]
+ORDER BY [TrackId];
+
+DROP TABLE IF EXISTS [tracks];
+DROP TABLE IF EXISTS [media_types];				-- Drop foreign key table
+ALTER TABLE [tracks_new] RENAME TO [tracks];
+
+CREATE INDEX [IFK_TrackAlbumId] ON [tracks] ([AlbumId]);
+CREATE INDEX [IFK_TrackGenreId] ON [tracks] ([GenreId]);
+
+--COMMIT TRANSACTION;
+PRAGMA foreign_keys = ON;
+
+
+
+-- Create Views
+DROP VIEW IF EXISTS [vw_AlbumArtist];
+CREATE VIEW [vw_AlbumArtist]
+AS
+SELECT	alb.AlbumId
+	,	alb.Title AS AlbumTitle
+	,	alb.ArtistId
+	,	art.Name AS ArtistName
+FROM	[albums] AS alb
+INNER JOIN [artists] AS art ON
+		alb.ArtistID = art.ArtistId;
+
+DROP VIEW IF EXISTS [vw_AlbumTracks];
+CREATE VIEW [vw_AlbumTracks]
+AS
+SELECT	a.AlbumId
+	,	a.Title AS AlbumTitle
+	,	a.ArtistId
+	,	t.TrackId
+	,	t.Name AS TrackName
+	,	t.GenreId
+	,	t.Composer
+	,	t.Milliseconds
+	,	t.Bytes
+FROM	[albums] AS a
+INNER JOIN [tracks] AS t ON
+		a.AlbumID = t.AlbumId;

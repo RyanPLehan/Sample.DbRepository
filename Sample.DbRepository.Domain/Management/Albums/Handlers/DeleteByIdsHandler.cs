@@ -36,7 +36,7 @@ namespace Sample.DbRepository.Domain.Management.Albums.Handlers
             var findRequest = new TrackSearch.FindByAlbums() { AlbumIds = albumIds };
             var tracks = await _mediator.Send(findRequest);
 
-            var deleteRequest = new TrackManage.DeleteByIds() { Ids = tracks.Select(x => x.Id).ToArray() };
+            var deleteRequest = new TrackManage.DeleteByIds() { Ids = tracks.Select(x => x.TrackId).ToArray() };
             await _mediator.Send(deleteRequest);
         }
     }

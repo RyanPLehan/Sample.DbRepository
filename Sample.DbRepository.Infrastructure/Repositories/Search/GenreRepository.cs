@@ -13,7 +13,6 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
     {
         private const string CACHE_KEY = "Search_GenreRepository";
         private const int DEFAULT_EXPIRATION_TIME_IN_SECONDS = 60 * 15;      // 15 minutes
-        private static MemoryCacheEntryOptions DefaultCacheEntryOptions = null;
 
         private readonly IMemoryCache _cache;
         private readonly IContextFactory<SearchContext> _contextFactory;
@@ -26,15 +25,13 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
 
             _contextFactory = contextFactory;
             _cache = cache;
-            if (DefaultCacheEntryOptions == null)
-                DefaultCacheEntryOptions = CreateMemoryCacheEntryOptions(DEFAULT_EXPIRATION_TIME_IN_SECONDS);
         }
 
 
 
-        public async Task<IEnumerable<Genre>> Get(int skip, int take)
+        public async Task<IEnumerable<Genre>> GetAll(int skip, int take)
         {
-            var entities = await GetAll();      // cached entries
+            var entities = await GetFromCache();      // cached entries
             return entities.OrderBy(x => x.Id)
                            .Skip(skip)
                            .Take(take)
@@ -42,15 +39,31 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
         }
 
 
+        public async Task<Genre> FindByGenre(int genreId)
+        {
+            var entities = await GetFromCache();      // cached entries
+            return entities.Where(x => x.Id == genreId)
+                           .FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Genre>> FindByGenre(IEnumerable<int> genreIds)
+        {
+            var distinctIds = genreIds.Distinct();
+            var entities = await GetFromCache();      // cached entries
+            return entities.Where(x => distinctIds.Contains(x.Id))
+                           .ToArray();
+        }
+
+
         public async Task<IEnumerable<Genre>> FindByName(string name)
         {
-            var entities = await GetAll();      // cached entries
+            var entities = await GetFromCache();      // cached entries
             return entities.Where(x => x.Name.Contains(name))
                            .ToArray();
         }
 
 
-        private async Task<IEnumerable<Genre>> GetAll()
+        private async Task<IEnumerable<Genre>> GetFromCache()
         {
             IEnumerable<Genre> entities = Enumerable.Empty<Genre>();
 
@@ -62,7 +75,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
                                             .ToArrayAsync();
                 }
 
-                _cache.Set<IEnumerable<Genre>>(CACHE_KEY, entities, DefaultCacheEntryOptions);
+                _cache.Set<IEnumerable<Genre>>(CACHE_KEY, entities, CreateMemoryCacheEntryOptions(DEFAULT_EXPIRATION_TIME_IN_SECONDS));
             }
 
             return entities;
@@ -74,7 +87,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
         {
             return new MemoryCacheEntryOptions()
             {
-                SlidingExpiration = TimeSpan.FromSeconds(entryExpirationInSeconds),
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(entryExpirationInSeconds),
             };
         }
 

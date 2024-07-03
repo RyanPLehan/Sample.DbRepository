@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sample.DbRepository.Domain.Helpers;
 using Sample.DbRepository.Domain.Search;
 using Sample.DbRepository.Domain.Search.Models;
 
@@ -10,6 +11,7 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
 {
     internal sealed class TrackRepository : ITrackRepository
     {
+        const int MAX_BATCH_SIZE = 250;
         private readonly IContextFactory<SearchContext> _contextFactory;
 
         public TrackRepository(IContextFactory<SearchContext> contextFactory)
@@ -19,16 +21,14 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             _contextFactory = contextFactory;
         }
 
-
-
-        public async Task<IEnumerable<Track>> Get(int skip, int take)
+        public async Task<IEnumerable<AlbumTrack>> GetAll(int skip, int take)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
                 entities = await context.Tracks
-                                        .OrderBy(x => x.Id)
+                                        .OrderBy(x => x.TrackId)
                                         .Skip(skip)
                                         .Take(take)
                                         .ToArrayAsync();
@@ -37,9 +37,56 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             return entities;
         }
 
-        public async Task<IEnumerable<Track>> FindByAlbum(int albumId)
+        public async Task<AlbumTrack> FindByTrack(int trackId)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            AlbumTrack entity = null;
+
+            using (var context = _contextFactory.CreateQueyContext())
+            {
+                entity = await context.Tracks
+                                       .Where(x => x.TrackId == trackId)
+                                       .FirstOrDefaultAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<IEnumerable<AlbumTrack>> FindByTrack(IEnumerable<int> trackIds)
+        {
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
+            var distinctIds = trackIds.Distinct();
+
+            using (var context = _contextFactory.CreateQueyContext())
+            {
+                // Using a batching routine to make sure that we don't overload the SQL statement's WHERE IN clause
+                entities = await BatchHelper.BatchAsync<int, AlbumTrack>(MAX_BATCH_SIZE, distinctIds, async batchIds =>
+                {
+                    return await context.Tracks
+                                        .Where(x => batchIds.Contains(x.TrackId))
+                                        .ToArrayAsync();
+                });
+            }
+
+            return entities;
+        }
+
+        public async Task<IEnumerable<AlbumTrack>> FindByTrackName(string trackName)
+        {
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
+
+            using (var context = _contextFactory.CreateQueyContext())
+            {
+                entities = await context.Tracks
+                                        .Where(x => x.TrackName.Contains(trackName))
+                                        .ToArrayAsync();
+            }
+
+            return entities;
+        }
+
+        public async Task<IEnumerable<AlbumTrack>> FindByAlbum(int albumId)
+        {
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
@@ -51,15 +98,33 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             return entities;
         }
 
-        public async Task<IEnumerable<Track>> FindByAlbum(IEnumerable<int> albumIds)
+        public async Task<IEnumerable<AlbumTrack>> FindByAlbum(IEnumerable<int> albumIds)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
+            var distinctIds = albumIds.Distinct();
+
+            using (var context = _contextFactory.CreateQueyContext())
+            {
+                // Using a batching routine to make sure that we don't overload the SQL statement's WHERE IN clause
+                entities = await BatchHelper.BatchAsync<int, AlbumTrack>(MAX_BATCH_SIZE, distinctIds, async batchIds =>
+                {
+                    return await context.Tracks
+                                        .Where(x => batchIds.Contains(x.AlbumId))
+                                        .ToArrayAsync();
+                });
+            }
+
+            return entities;
+        }
+
+        public async Task<IEnumerable<AlbumTrack>> FindByAlbumTitle(string albumTitle)
+        {
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
                 entities = await context.Tracks
-                                        .Where(x => x.AlbumId != null &&
-                                                    albumIds.Contains(x.AlbumId.Value))
+                                        .Where(x => x.AlbumTitle.Contains(albumTitle))
                                         .ToArrayAsync();
             }
 
@@ -67,9 +132,9 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
         }
 
 
-        public async Task<IEnumerable<Track>> FindByComposer(string composer)
+        public async Task<IEnumerable<AlbumTrack>> FindByComposer(string composer)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
@@ -82,10 +147,9 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
         }
 
 
-
-        public async Task<IEnumerable<Track>> FindByGenre(int genreId)
+        public async Task<IEnumerable<AlbumTrack>> FindByGenre(int genreId)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
@@ -97,31 +161,20 @@ namespace Sample.DbRepository.Infrastructure.Repositories.Search
             return entities;
         }
 
-        public async Task<IEnumerable<Track>> FindByGenre(IEnumerable<int> genreIds)
+        public async Task<IEnumerable<AlbumTrack>> FindByGenre(IEnumerable<int> genreIds)
         {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
+            IEnumerable<AlbumTrack> entities = Enumerable.Empty<AlbumTrack>();
+            var distinctIds = genreIds.Distinct();
 
             using (var context = _contextFactory.CreateQueyContext())
             {
-                entities = await context.Tracks
-                                        .Where(x => x.GenreId != null &&
-                                                    genreIds.Contains(x.GenreId.Value))
+                // Using a batching routine to make sure that we don't overload the SQL statement's WHERE IN clause
+                entities = await BatchHelper.BatchAsync<int, AlbumTrack>(MAX_BATCH_SIZE, distinctIds, async batchIds =>
+                {
+                    return await context.Tracks
+                                        .Where(x => batchIds.Contains(x.GenreId.Value))
                                         .ToArrayAsync();
-            }
-
-            return entities;
-        }
-
-
-        public async Task<IEnumerable<Track>> FindByName(string name)
-        {
-            IEnumerable<Track> entities = Enumerable.Empty<Track>();
-
-            using (var context = _contextFactory.CreateQueyContext())
-            {
-                entities = await context.Tracks
-                                        .Where(x => x.Name.Contains(name))
-                                        .ToArrayAsync();
+                });
             }
 
             return entities;

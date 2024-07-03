@@ -35,7 +35,7 @@ namespace Sample.DbRepository.Domain.Management.Artists.Handlers
             var findRequest = new AlbumSearch.FindByArtist() { ArtistId = artistId };
             var albums = await _mediator.Send(findRequest);
 
-            var deleteRequest = new AlbumManage.DeleteByIds() { Ids = albums.Select(x => x.Id).ToArray() };
+            var deleteRequest = new AlbumManage.DeleteByIds() { Ids = albums.Select(x => x.AlbumId).ToArray() };
             await _mediator.Send(deleteRequest);
         }
     }

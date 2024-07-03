@@ -5,7 +5,7 @@ using Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Domain.Search.Tracks.Requests
 {
-    public class FindByAlbums : IRequest<IEnumerable<Track>>
+    public class FindByAlbums : IRequest<IEnumerable<AlbumTrack>>
     {
         public IEnumerable<int> AlbumIds { get; set; }
     }
