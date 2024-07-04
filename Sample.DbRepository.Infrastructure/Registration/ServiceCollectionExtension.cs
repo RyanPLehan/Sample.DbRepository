@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using IManagement = Sample.DbRepository.Domain.Management;
-using CManagement = Sample.DbRepository.Infrastructure.Repositories.Management;
+using IManage = Sample.DbRepository.Domain.Manage;
+using CManage = Sample.DbRepository.Infrastructure.Repositories.Manage;
 using ISearch = Sample.DbRepository.Domain.Search;
 using CSearch = Sample.DbRepository.Infrastructure.Repositories.Search;
-using IAggregation = Sample.DbRepository.Domain.Aggregation;
-using CAggregation = Sample.DbRepository.Infrastructure.Repositories.Aggregation;
+using IAggregate = Sample.DbRepository.Domain.Aggregate;
+using CAggregate = Sample.DbRepository.Infrastructure.Repositories.Aggregate;
 using Sample.DbRepository.Infrastructure.Repositories;
-using Sample.DbRepository.Infrastructure.Repositories.Aggregation;
-using Sample.DbRepository.Infrastructure.Repositories.Management;
+using Sample.DbRepository.Infrastructure.Repositories.Aggregate;
+using Sample.DbRepository.Infrastructure.Repositories.Manage;
 using Sample.DbRepository.Infrastructure.Repositories.Search;
 
 
@@ -22,15 +22,15 @@ namespace Sample.DbRepository.Infrastructure.Registration
             services.AddMemoryCache();
 
             // Database Context Factory and Repositories
-            services.AddSingleton<IContextFactory<ManagementContext>, ManagementContextFactory>();
+            services.AddSingleton<IContextFactory<ManageContext>, ManageContextFactory>();
             services.AddSingleton<IContextFactory<SearchContext>, SearchContextFactory>();
-            services.AddSingleton<IContextFactory<AggregationContext>, AggregationContextFactory>();
+            services.AddSingleton<IContextFactory<AggregateContext>, AggregateContextFactory>();
 
-            // Management
-            services.AddSingleton<IManagement.IAlbumRepository, CManagement.AlbumRepository>();
-            services.AddSingleton<IManagement.IArtistRepository, CManagement.ArtistRepository>();
-            services.AddSingleton<IManagement.IGenreRepository, CManagement.GenreRepository>();
-            services.AddSingleton<IManagement.ITrackRepository, CManagement.TrackRepository>();
+            // Manage
+            services.AddSingleton<IManage.IAlbumRepository, CManage.AlbumRepository>();
+            services.AddSingleton<IManage.IArtistRepository, CManage.ArtistRepository>();
+            services.AddSingleton<IManage.IGenreRepository, CManage.GenreRepository>();
+            services.AddSingleton<IManage.ITrackRepository, CManage.TrackRepository>();
 
             // Search
             services.AddSingleton<ISearch.IAlbumRepository, CSearch.AlbumRepository>();
@@ -38,8 +38,8 @@ namespace Sample.DbRepository.Infrastructure.Registration
             services.AddSingleton<ISearch.IGenreRepository, CSearch.GenreRepository>();
             services.AddSingleton<ISearch.ITrackRepository, CSearch.TrackRepository>();
 
-            // Aggregation
-            services.AddSingleton<IAggregation.ITrackRepository, CAggregation.TrackRepository>();
+            // Aggregate
+            services.AddSingleton<IAggregate.ITrackRepository, CAggregate.TrackRepository>();
 
             return services;
         }

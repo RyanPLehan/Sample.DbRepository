@@ -21,7 +21,7 @@ namespace Sample.DbRepository.Domain.Search.Tracks.Handlers
         public async Task<IEnumerable<AlbumTrack>> Handle(GetAll request, CancellationToken cancellationToken)
         {
             int skip = BatchHelper.ApplySkip(request.Skip);
-            int take = BatchHelper.ApplySkip(request.Take);
+            int take = BatchHelper.ApplyTake(request.Take);
 
             return await _repository.GetAll(skip, take);
         }

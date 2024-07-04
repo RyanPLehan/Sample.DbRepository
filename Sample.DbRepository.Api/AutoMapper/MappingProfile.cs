@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Sample.DbRepository.Api.Models;
-using AggregationModels = Sample.DbRepository.Domain.Aggregation.Models;
+using AggregateModels = Sample.DbRepository.Domain.Aggregate.Models;
 using SearchModels = Sample.DbRepository.Domain.Search.Models;
 
 namespace Sample.DbRepository.Api.AutoMapper
@@ -22,7 +22,7 @@ namespace Sample.DbRepository.Api.AutoMapper
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                     .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
-            CreateMap<AggregationModels.AlbumStatistic, Album>()
+            CreateMap<AggregateModels.AlbumStatistic, Album>()
                     .ForMember(dest => dest.Tracks, opt => opt.MapFrom(src => src.NumberOfTracks))
                     .ForMember(dest => dest.PlayTimeInMilliseconds, opt => opt.MapFrom(src => src.PlayTimeInMilliseconds))
                     .ForMember(dest => dest.SizeInBytes, opt => opt.MapFrom(src => src.SizeInBytes))

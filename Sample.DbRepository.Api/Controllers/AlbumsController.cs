@@ -2,8 +2,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Sample.DbRepository.Api.Models;
-using TracksAggregation = Sample.DbRepository.Domain.Aggregation.Albums.Requests;
-using AggregationModels = Sample.DbRepository.Domain.Aggregation.Models;
+using TracksAggregate = Sample.DbRepository.Domain.Aggregate.Albums.Requests;
+using AggregateModels = Sample.DbRepository.Domain.Aggregate.Models;
 using SearchModels = Sample.DbRepository.Domain.Search.Models;
 using AlbumSearch = Sample.DbRepository.Domain.Search.Albums.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -55,7 +55,7 @@ namespace Sample.DbRepository.Api.Controllers
 
 
             Task<Album> taskAlbum = GetAlbum(id);
-            Task<AggregationModels.AlbumStatistic> taskAlbumStat = GetAlbumStatistic(id);
+            Task<AggregateModels.AlbumStatistic> taskAlbumStat = GetAlbumStatistic(id);
             await Task.WhenAll(taskAlbum, taskAlbumStat);
 
             var album = await taskAlbum;
@@ -64,7 +64,7 @@ namespace Sample.DbRepository.Api.Controllers
             if (album == null)
                 return NoContent();
             else
-                return Ok(_mapper.Map<AggregationModels.AlbumStatistic, Album>(albumStat, album));
+                return Ok(_mapper.Map<AggregateModels.AlbumStatistic, Album>(albumStat, album));
         }
 
 
@@ -76,9 +76,9 @@ namespace Sample.DbRepository.Api.Controllers
         }
 
 
-        private async Task<AggregationModels.AlbumStatistic> GetAlbumStatistic(int albumId)
+        private async Task<AggregateModels.AlbumStatistic> GetAlbumStatistic(int albumId)
         {
-            var request = new TracksAggregation.CalcStatisticByAlbum() { AlbumId = albumId };
+            var request = new TracksAggregate.CalcStatisticByAlbum() { AlbumId = albumId };
             return await _mediator.Send(request);
         }
     }
