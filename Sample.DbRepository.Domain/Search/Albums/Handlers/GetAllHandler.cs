@@ -9,6 +9,7 @@ namespace Sample.DbRepository.Domain.Search.Albums.Handlers
 {
     internal class GetAllHandler : IRequestHandler<GetAll, IEnumerable<AlbumArtist>>
     {
+        private const int MAX_TAKE = 250;
         private readonly IAlbumRepository _repository;
 
         public GetAllHandler(IAlbumRepository repository)
@@ -21,7 +22,7 @@ namespace Sample.DbRepository.Domain.Search.Albums.Handlers
         public async Task<IEnumerable<AlbumArtist>> Handle(GetAll request, CancellationToken cancellationToken)
         {
             int skip = BatchHelper.ApplySkip(request.Skip);
-            int take = BatchHelper.ApplyTake(request.Take);
+            int take = BatchHelper.ApplyTake(request.Take, MAX_TAKE);
 
             return await _repository.GetAll(skip, take);
         }

@@ -9,6 +9,7 @@ namespace Sample.DbRepository.Domain.Search.Genres.Handlers
 {
     internal class GetAllHandler : IRequestHandler<GetAll, IEnumerable<Genre>>
     {
+        private const int MAX_TAKE = 250;
         private readonly IGenreRepository _repository;
 
         public GetAllHandler(IGenreRepository repository)
@@ -21,7 +22,7 @@ namespace Sample.DbRepository.Domain.Search.Genres.Handlers
         public async Task<IEnumerable<Genre>> Handle(GetAll request, CancellationToken cancellationToken)
         {
             int skip = BatchHelper.ApplySkip(request.Skip);
-            int take = BatchHelper.ApplyTake(request.Take);
+            int take = BatchHelper.ApplyTake(request.Take, MAX_TAKE);
 
             return await _repository.GetAll(skip, take);
         }

@@ -15,11 +15,11 @@ namespace Sample.DbRepository.Domain.Helpers
 
         public const int MIN_SKIP = 0;
         public const int MIN_TAKE = 1;
-        public const int MAX_TAKE = 100;
+        public const int MAX_TAKE = 100000;
 
 
         public static int ApplySkip(int skip) => Math.Max(MIN_SKIP, skip);
-        public static int ApplyTake(int take) => Math.Min(Math.Max(MIN_TAKE, take), MAX_TAKE);
+        public static int ApplyTake(int take, int maxTake = MAX_TAKE) => Math.Min(Math.Max(MIN_TAKE, take), maxTake);
 
 
 
