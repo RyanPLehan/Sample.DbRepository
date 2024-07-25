@@ -15,7 +15,7 @@ namespace Sample.DbRepository.Domain.Helpers
 
         public const int MIN_SKIP = 0;
         public const int MIN_TAKE = 1;
-        public const int MAX_TAKE = 100000;
+        public const int MAX_TAKE = Int32.MaxValue;
 
 
         public static int ApplySkip(int skip) => Math.Max(MIN_SKIP, skip);
